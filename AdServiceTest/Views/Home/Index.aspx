@@ -21,10 +21,7 @@ Objectives:
     <div id="content">
         <div id="header">WCF Ad Data Service</div>
         <div id="nav">
-            <button id="btnAllAds">All Ads</button>
-            <button id="btnHighCoverAds">High Coverage Ads</button>
-            <button id="btnTop5Ads">Top 5 Ads</button>
-            <button id="btnTop5Brands">Top 5 Brands</button>
+            <button id="btnAllAds">All Ads</button><button id="btnHighCoverAds">High Coverage Ads</button><button id="btnTop5Ads">Top 5 Ads</button><button id="btnTop5Brands">Top 5 Brands</button>
         </div>
         <div id="sections">
             <div id="secAllAds">
@@ -86,6 +83,7 @@ Objectives:
         function getAllAds() {
             $.get("/Home/GetAllAdData", null, function (data) {
                 var adData = jQuery.parseJSON(data);
+                setMode(0);
                 $("#tblAllAds").DataTable({
                     destroy: true,
                     pageLength: 25,
@@ -99,12 +97,33 @@ Objectives:
                     ],
                     order: [2, "asc"]
                 });
-                setMode(0);
+                
+            });
+        }
+        function getHighCoverAds() {
+            $.get("/Home/GetHighCoverAdData", null, function (data) {
+                var adData = jQuery.parseJSON(data);
+                setMode(1);
+                $("#tblHighCoverAds").DataTable({
+                    destroy: true,
+                    pageLength: 25,
+                    data: adData,
+                    columns: [
+                    { data: "AdId", width: "10%" },
+                    { data: "BrandId", width: "20%" },
+                    { data: "BrandName", width: "40%" },
+                    { data: "NumPages", width: "20%" },
+                    { data: "Position", width: "10%" }
+                    ],
+                    order: [2, "asc"]
+                });
+                
             });
         }
         function getTop5Brands() {
             $.get("/Home/GetTop5BrandData", null, function (data) {
                 var adData = jQuery.parseJSON(data);
+                setMode(3);
                 $("#tblTop5Brands").DataTable({
                     destroy: true,
                     pageLength: 5,
@@ -118,12 +137,13 @@ Objectives:
                     ],
                     order: [1, "desc"]
                 });
-                setMode(3);
+                
             });
         }
         function getTop5Ads() {
             $.get("/Home/GetTop5AdData", null, function (data) {
                 var adData = jQuery.parseJSON(data);
+                setMode(2);
                 $("#tblTop5Ads").DataTable({
                     destroy: true,
                     pageLength: 5,
@@ -140,71 +160,55 @@ Objectives:
                     ],
                     order: [1, "desc"]
                 });
-                setMode(2);
-            });
-        }
-        function getAdData(url, tbl, complete) {
-            $.get(url, null, function (data) {
-                var adData = jQuery.parseJSON(data);
-                $("#" + tbl).DataTable({
-                    destroy: true,
-                    pageLength: tbl == "tblTop5Brands" || tbl == "tblTop5Ads" ? 5 : 25,
-                    data: adData,
-                    columns: [
-                    { data: "AdId", width: "10%" },
-                    { data: "BrandId", width: "20%" },
-                    { data: "BrandName", width: "40%" },
-                    { data: "NumPages", width: "20%" },
-                    { data: "Position", width: "10%" }
-                    ],
-                    order: [3, "desc"]
-                });
-                if (complete) {
-                    complete();
-                }
+                
             });
         }
         function setMode(mode) {
             switch (mode) {
                 case -1:
                     $("#sections>[id^='sec']").hide();
-                    $("#sections>div>table").hide();
                 case 0:
-                    $("#sections>[id^='sec']").fadeOut(400);
+                    $("#secTop5Brands").fadeOut(400);
+                    $("#secTop5Ads").fadeOut(400);
+                    $("#secHighCoverAds").fadeOut(400);
                     $("#secAllAds").fadeIn(400);
-                    $("#tblAllAds").show();
+                    $("[id^='btn']").removeClass("active");
+                    $("#btnAllAds").addClass("active");
                     break;
                 case 1:
-                    $("#sections>[id^='sec']").fadeOut(400);
+                    $("#secTop5Brands").fadeOut(400);
+                    $("#secTop5Ads").fadeOut(400);
                     $("#secHighCoverAds").fadeIn(400);
-                    $("#tblHighCoverAds").show();
+                    $("#secAllAds").fadeOut(400);
+                    $("[id^='btn']").removeClass("active");
+                    $("#btnHighCoverAds").addClass("active");
                     break;
                 case 2:
-                    $("#sections>[id^='sec']").fadeOut(400);
+                    $("#secTop5Brands").fadeOut(400);
                     $("#secTop5Ads").fadeIn(400);
-                    $("#tblTop5Ads").show();
+                    $("#secHighCoverAds").fadeOut(400);
+                    $("#secAllAds").fadeOut(400);
+                    $("[id^='btn']").removeClass("active");
+                    $("#btnTop5Ads").addClass("active");
                     break;
                 case 3:
-                    $("#sections>[id^='sec']").fadeOut(400);
                     $("#secTop5Brands").fadeIn(400);
-                    $("#tblTop5Brands").show();
+                    $("#secTop5Ads").fadeOut(400);
+                    $("#secHighCoverAds").fadeOut(400);
+                    $("#secAllAds").fadeOut(400);
+                    $("[id^='btn']").removeClass("active");
+                    $("#btnTop5Brands").addClass("active");
                     break;
             }
         }
         $(document).ready(function () {
-
             setMode(-1);
-            var allAdUrl = "/Home/GetAllAdData";
-            var highCoverAdUrl = "/Home/GetHighCoverAdData";
-            var top5AdData = "/Home/GetTop5AdData";
-            var top5BrandData = "/Home/GetTop5BrandData";
-
             getAllAds();
             $("#btnAllAds").click(function () {
                 getAllAds();
             });
             $("#btnHighCoverAds").click(function () {
-                getAdData(highCoverAdUrl, "tblHighCoverAds", setMode(1));
+                getHighCoverAds();
             });
             $("#btnTop5Ads").click(function () {
                 getTop5Ads();
