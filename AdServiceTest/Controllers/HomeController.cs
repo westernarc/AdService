@@ -19,7 +19,7 @@ namespace AdServiceTest.Controllers
             public string Position;
         }
         public static DateTime startDate = new DateTime(2011, 1, 1);
-        public static DateTime endDate = new DateTime(2011, 1, 2);//new DateTime(2011, 4, 1)
+        public static DateTime endDate = new DateTime(2011, 4, 1);
 
         public string GetAllAdData()
         {
