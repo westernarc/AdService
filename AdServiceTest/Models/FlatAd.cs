@@ -38,7 +38,14 @@ namespace AdServiceTest.Models
             get { return _Position; }
             set { _Position = value; }
         }
-
+        public FlatAd()
+        {
+            AdId = 0;
+            BrandId = 0;
+            BrandName = "";
+            NumPages = 0;
+            Position = "";
+        }
         public FlatAd(WCFAdDataService.Ad ad)
         {
             AdId = ad.AdId;

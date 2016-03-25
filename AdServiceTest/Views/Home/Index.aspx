@@ -14,8 +14,11 @@ Objectives:
     <meta name="viewport" content="width=device-width" />
     <title>Ad Service Data Viewer</title>
     <link rel="stylesheet" type="text/css" href="../../Content/Site.css" />
+
     <script type="text/javascript" src="../../Scripts/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.24.min.js"></script>
     <script type="text/javascript" charset="utf8" src="../../Scripts/DataTables-1.10.11/media/js/jquery.dataTables.js"></script>
+    
 </head>
 <body>
     <div id="sidetag">
@@ -24,11 +27,18 @@ Objectives:
         </div>
     </div>
     <div id="content">
-        <div id="header">   WCF Ad Data Service</div>
+        <div id="header">WCF Ad Data Service</div>
         <div id="nav">
             <button id="btnAllAds">All Ads</button><button id="btnHighCoverAds">High Coverage Ads</button><button id="btnTop5Ads">Top 5 Ads</button><button id="btnTop5Brands">Top 5 Brands</button>
+            <div id="filter">
+            From <input type="text" id="datFrom" />
+            To <input type="text" id="datTo" />
+            </div>
         </div>
         <div id="sections">
+            <div id="secLoading">
+                Loading...
+            </div>
             <div id="secAllAds">
                 <div class="sectionHeader">All Ad Data</div>
                 <table id="tblAllAds">
@@ -86,7 +96,7 @@ Objectives:
     </div>
     <script>
         function getAllAds() {
-            $.get("/Home/GetAllAdData", null, function (data) {
+            $.get("/Home/GetAllAdData", {fromDate: $("#datFrom").val(), toDate: $("#datTo").val()}, function (data) {
                 var adData = jQuery.parseJSON(data);
                 setMode(0);
                 $("#tblAllAds").DataTable({
@@ -107,7 +117,7 @@ Objectives:
             });
         }
         function getHighCoverAds() {
-            $.get("/Home/GetHighCoverAdData", null, function (data) {
+            $.get("/Home/GetHighCoverAdData", { fromDate: $("#datFrom").val(), toDate: $("#datTo").val() }, function (data) {
                 var adData = jQuery.parseJSON(data);
                 setMode(1);
                 $("#tblHighCoverAds").DataTable({
@@ -128,7 +138,7 @@ Objectives:
             });
         }
         function getTop5Brands() {
-            $.get("/Home/GetTop5BrandData", null, function (data) {
+            $.get("/Home/GetTop5BrandData", { fromDate: $("#datFrom").val(), toDate: $("#datTo").val() }, function (data) {
                 var adData = jQuery.parseJSON(data);
                 setMode(3);
                 $("#tblTop5Brands").DataTable({
@@ -148,7 +158,7 @@ Objectives:
             });
         }
         function getTop5Ads() {
-            $.get("/Home/GetTop5AdData", null, function (data) {
+            $.get("/Home/GetTop5AdData", { fromDate: $("#datFrom").val(), toDate: $("#datTo").val() }, function (data) {
                 var adData = jQuery.parseJSON(data);
                 setMode(2);
                 $("#tblTop5Ads").DataTable({
@@ -174,6 +184,7 @@ Objectives:
             switch (mode) {
                 case -1:
                     $("#sections>[id^='sec']").hide();
+                    //$("#secLoading").fadeIn(400);
                 case 0:
                     $("#secTop5Brands").fadeOut(400);
                     $("#secTop5Ads").fadeOut(400);
@@ -209,8 +220,14 @@ Objectives:
             }
         }
         $(document).ready(function () {
+            $("#datFrom").val("01/01/2011");
+            $("#datTo").val("04/01/2011");
+            $("#datFrom").datepicker();
+            $("#datTo").datepicker();
+
             setMode(-1);
             getAllAds();
+
             $("#btnAllAds").click(function () {
                 getAllAds();
             });

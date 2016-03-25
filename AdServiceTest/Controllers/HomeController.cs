@@ -10,18 +10,17 @@ namespace AdServiceTest.Controllers
 {
     public class HomeController : Controller
     {
-        //Start and end dates for ad data retrieval
-        public static DateTime startDate = new DateTime(2011, 1, 1);
-        public static DateTime endDate = new DateTime(2011, 4, 1);
-
         //Method for comparing Ads by NumPages; used for List.Sort()
         private static int CompareAdsByCoverage(FlatAd x, FlatAd y)
         {
             return y.NumPages.CompareTo(x.NumPages);
         }
 
-        public string GetAllAdData()
+        public string GetAllAdData(string fromDate, string toDate)
         {
+            DateTime startDate = DateTime.ParseExact(fromDate, "MM/dd/yyyy", null);
+            DateTime endDate = DateTime.ParseExact(toDate, "MM/dd/yyyy", null);
+
             WCFAdDataService.AdDataServiceClient adsc = new WCFAdDataService.AdDataServiceClient();
             WCFAdDataService.Ad[] adData = adsc.GetAdDataByDateRange(startDate, endDate);
 
@@ -37,8 +36,11 @@ namespace AdServiceTest.Controllers
 
             return data;
         }
-        public string GetHighCoverAdData()
+        public string GetHighCoverAdData(string fromDate, string toDate)
         {
+            DateTime startDate = DateTime.ParseExact(fromDate, "MM/dd/yyyy", null);
+            DateTime endDate = DateTime.ParseExact(toDate, "MM/dd/yyyy", null);
+
             WCFAdDataService.AdDataServiceClient adsc = new WCFAdDataService.AdDataServiceClient();
             WCFAdDataService.Ad[] adData = adsc.GetAdDataByDateRange(startDate, endDate);
 
@@ -63,8 +65,11 @@ namespace AdServiceTest.Controllers
 
             return data;
         }
-        public string GetTop5AdData()
+        public string GetTop5AdData(string fromDate, string toDate)
         {
+            DateTime startDate = DateTime.ParseExact(fromDate, "MM/dd/yyyy", null);
+            DateTime endDate = DateTime.ParseExact(toDate, "MM/dd/yyyy", null);
+
             WCFAdDataService.AdDataServiceClient adsc = new WCFAdDataService.AdDataServiceClient();
             WCFAdDataService.Ad[] adData = adsc.GetAdDataByDateRange(startDate, endDate);
 
@@ -101,8 +106,11 @@ namespace AdServiceTest.Controllers
 
             return data;
         }
-        public string GetTop5BrandData()
+        public string GetTop5BrandData(string fromDate, string toDate)
         {
+            DateTime startDate = DateTime.ParseExact(fromDate, "MM/dd/yyyy", null);
+            DateTime endDate = DateTime.ParseExact(toDate, "MM/dd/yyyy", null);
+
             WCFAdDataService.AdDataServiceClient adsc = new WCFAdDataService.AdDataServiceClient();
             WCFAdDataService.Ad[] adData = adsc.GetAdDataByDateRange(startDate, endDate);
 
@@ -132,6 +140,7 @@ namespace AdServiceTest.Controllers
             int row = 0;
             foreach (KeyValuePair<string, float> kvp in brandList)
             {
+                filteredAds[row] = new FlatAd();
                 filteredAds[row].BrandName = kvp.Key;
                 filteredAds[row].NumPages = kvp.Value;
                 row++;

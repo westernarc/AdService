@@ -46,14 +46,25 @@
     padding-top: 25px;
     background-color: #333;
 }
-
 #nav {
     margin-bottom: 20px;
     border-top: 1px solid #666;
     padding-top: 1px;
     background-color: #ccc;
+    white-space: nowrap;
 }
-#nav button {
+#nav #filter {
+    position: absolute;
+    display: inline-block;
+    right: 10px;
+    padding-top: 8px;
+    vertical-align: middle;
+}
+#nav>#filter>input {
+    width: 80px;
+    text-align: center;
+}
+#nav>button {
     padding: 10px 20px 10px 20px;
     font-size: 1.2em;
     background-color: #666;
@@ -61,15 +72,16 @@
     border-right: 1px solid #888;
     margin: 0px;
     color: #888;
+    display: inline-block;
 }
-#nav button.active {
+#nav>button.active {
     background-color: #555;
     color: white;
 }
-#nav button.active:hover {
+#nav>button.active:hover {
     color: white;
 }
-#nav button:hover {
+#nav>button:hover {
     color: #aaa;
     cursor: pointer;
 }
@@ -229,4 +241,20 @@ table.dataTable thead .sorting_asc_disabled {
 }
 table.dataTable thead .sorting_desc_disabled {
   background-image: url("../images/sort_desc_disabled.png");
+}
+#ui-datepicker-div {
+    display: none;
+}
+.ui-datepicker {
+    background-color: white;
+    padding: 5px;
+}
+.ui-datepicker td {
+    text-align: center;
+}
+.ui-datepicker-header a[title="Next"] {
+    text-align: right;
+    width: 50%;
+    position: absolute;
+    right: 5px;
 }
