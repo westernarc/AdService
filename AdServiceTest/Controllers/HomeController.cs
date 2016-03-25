@@ -18,16 +18,6 @@ namespace AdServiceTest.Controllers
             public float NumPages;
             public string Position;
         }
-        struct BrandCoverage
-        {
-            public string BrandName;
-            public float NumPages;
-            public BrandCoverage(string name, float coverage)
-            {
-                BrandName = name;
-                NumPages = coverage;
-            }
-        }
         public static DateTime startDate = new DateTime(2011, 1, 1);
         public static DateTime endDate = new DateTime(2011, 1, 2);//new DateTime(2011, 4, 1)
 

@@ -96,9 +96,9 @@ Objectives:
                     scrollY: "500px",
                     columns: [
                     { data: "AdId", width: "10%" },
-                    { data: "BrandId", width: "20%" },
-                    { data: "BrandName", width: "40%" },
-                    { data: "NumPages", width: "20%" },
+                    { data: "BrandId", width: "10%" },
+                    { data: "BrandName", width: "60%" },
+                    { data: "NumPages", width: "10%" },
                     { data: "Position", width: "10%" }
                     ],
                     order: [2, "asc"]
@@ -117,9 +117,9 @@ Objectives:
                     scrollY: "500px",
                     columns: [
                     { data: "AdId", width: "10%" },
-                    { data: "BrandId", width: "20%" },
-                    { data: "BrandName", width: "40%" },
-                    { data: "NumPages", width: "20%" },
+                    { data: "BrandId", width: "10%" },
+                    { data: "BrandName", width: "60%" },
+                    { data: "NumPages", width: "10%" },
                     { data: "Position", width: "10%" }
                     ],
                     order: [2, "asc"]
@@ -142,7 +142,7 @@ Objectives:
                     { data: "BrandName", bSortable: false, width: "200px"},
                     { data: "NumPages", bSortable: false, width: "200px" },
                     ],
-                    order: [1, "desc"]
+                    order: [[1, "desc"], [0, "asc"]]
                 });
                 
             });
@@ -160,13 +160,13 @@ Objectives:
                     sDom: "t",
                     columns: [
                     { data: "AdId", width: "10%" },
-                    { data: "BrandId", width: "20%" },
-                    { data: "BrandName", width: "40%" },
-                    { data: "NumPages", width: "20%" },
+                    { data: "BrandId", width: "10%" },
+                    { data: "BrandName", width: "60%" },
+                    { data: "NumPages", width: "10%" },
                     { data: "Position", width: "10%" }
                     ],
-                    order: [1, "desc"]
-                });
+                    order: [[3, "desc"], [2, "asc"]]
+                });1
                 
             });
         }
