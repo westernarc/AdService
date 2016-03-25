@@ -18,7 +18,7 @@ Objectives:
     <script type="text/javascript" src="../../Scripts/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.24.min.js"></script>
     <script type="text/javascript" charset="utf8" src="../../Scripts/DataTables-1.10.11/media/js/jquery.dataTables.js"></script>
-    
+
 </head>
 <body>
     <div id="sidetag">
@@ -29,16 +29,19 @@ Objectives:
     <div id="content">
         <div id="header">WCF Ad Data Service</div>
         <div id="nav">
-            <button id="btnAllAds">All Ads</button><button id="btnHighCoverAds">High Coverage Ads</button><button id="btnTop5Ads">Top 5 Ads</button><button id="btnTop5Brands">Top 5 Brands</button>
+            <button id="btnAllAds">
+                All Ads</button><button id="btnHighCoverAds">
+                High Coverage Ads</button><button id="btnTop5Ads">
+                Top 5 Ads</button><button id="btnTop5Brands">
+                Top 5 Brands</button>
             <div id="filter">
-            From <input type="text" id="datFrom" />
-            To <input type="text" id="datTo" />
+                From
+                <input type="text" id="datFrom" />
+                To
+                <input type="text" id="datTo" />
             </div>
         </div>
         <div id="sections">
-            <div id="secLoading">
-                Loading...
-            </div>
             <div id="secAllAds">
                 <div class="sectionHeader">All Ad Data</div>
                 <table id="tblAllAds">
@@ -83,20 +86,20 @@ Objectives:
             </div>
             <div id="secTop5Brands">
                 <div class="sectionHeader">Top 5 Brands in Page Coverage</div>
-            <table id="tblTop5Brands">
-                <thead>
-                    <tr>
-                        <th style="width: 50%;">Brand Name</th>
-                        <th>Coverage</th>
-                    </tr>
-                </thead>
-            </table>
+                <table id="tblTop5Brands">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Brand Name</th>
+                            <th>Coverage</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
     <script>
         function getAllAds() {
-            $.get("/Home/GetAllAdData", {fromDate: $("#datFrom").val(), toDate: $("#datTo").val()}, function (data) {
+            $.get("/Home/GetAllAdData", { fromDate: $("#datFrom").val(), toDate: $("#datTo").val() }, function (data) {
                 var adData = jQuery.parseJSON(data);
                 setMode(0);
                 $("#tblAllAds").DataTable({
@@ -113,7 +116,7 @@ Objectives:
                     ],
                     order: [2, "asc"]
                 });
-                
+
             });
         }
         function getHighCoverAds() {
@@ -134,7 +137,7 @@ Objectives:
                     ],
                     order: [2, "asc"]
                 });
-                
+
             });
         }
         function getTop5Brands() {
@@ -149,12 +152,12 @@ Objectives:
                     bInfo: false,
                     sDom: "t",
                     columns: [
-                    { data: "BrandName", bSortable: false, width: "200px"},
+                    { data: "BrandName", bSortable: false, width: "200px" },
                     { data: "NumPages", bSortable: false, width: "200px" },
                     ],
                     order: [[1, "desc"], [0, "asc"]]
                 });
-                
+
             });
         }
         function getTop5Ads() {
@@ -176,15 +179,14 @@ Objectives:
                     { data: "Position", width: "10%" }
                     ],
                     order: [[3, "desc"], [2, "asc"]]
-                });1
-                
+                }); 1
+
             });
         }
         function setMode(mode) {
             switch (mode) {
                 case -1:
                     $("#sections>[id^='sec']").hide();
-                    //$("#secLoading").fadeIn(400);
                 case 0:
                     $("#secTop5Brands").fadeOut(400);
                     $("#secTop5Ads").fadeOut(400);
@@ -219,6 +221,17 @@ Objectives:
                     break;
             }
         }
+        function validateDatepickers() {
+            var fromDate = new Date($("#datFrom").val());
+            var toDate = new Date($("#datTo").val());
+            if (fromDate >= toDate) {
+                alert("From Date must be earlier than To Date");
+                $("#datFrom").focus();
+                return false;
+            } else {
+                return true;
+            }
+        }
         $(document).ready(function () {
             $("#datFrom").val("01/01/2011");
             $("#datTo").val("04/01/2011");
@@ -229,20 +242,18 @@ Objectives:
             getAllAds();
 
             $("#btnAllAds").click(function () {
-                getAllAds();
+                if (validateDatepickers()) { getAllAds(); }
             });
             $("#btnHighCoverAds").click(function () {
-                getHighCoverAds();
+                if (validateDatepickers()) { getHighCoverAds(); }
             });
             $("#btnTop5Ads").click(function () {
-                getTop5Ads();
+                if (validateDatepickers()) { getTop5Ads(); }
             });
             $("#btnTop5Brands").click(function () {
-                getTop5Brands();
+                if (validateDatepickers()) { getTop5Brands(); }
             });
-
         });
-
     </script>
 </body>
 </html>
