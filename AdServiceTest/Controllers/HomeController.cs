@@ -18,6 +18,16 @@ namespace AdServiceTest.Controllers
             public float NumPages;
             public string Position;
         }
+        struct BrandCoverage
+        {
+            public string BrandName;
+            public float NumPages;
+            public BrandCoverage(string name, float coverage)
+            {
+                BrandName = name;
+                NumPages = coverage;
+            }
+        }
         public static DateTime startDate = new DateTime(2011, 1, 1);
         public static DateTime endDate = new DateTime(2011, 1, 2);//new DateTime(2011, 4, 1)
 
@@ -50,14 +60,14 @@ namespace AdServiceTest.Controllers
             List<WCFAdDataService.Ad> filteredData = new List<WCFAdDataService.Ad>();
             for (int i = 0; i < adData.Length; i++)
             {
-                if ((float)adData[i].NumPages >= 0.5f)
+                if ((float)adData[i].NumPages >= 0.5f && adData[i].Position == "Cover")
                 {
                     filteredData.Add(adData[i]);
                 }
             }
 
-            //Convert to datatable: All ads
-            FlatAd[] filteredAds = new FlatAd[adData.Length];
+            //Convert to array: All ads
+            FlatAd[] filteredAds = new FlatAd[filteredData.Count];
             for (int i = 0; i < filteredAds.Length; i++)
             {
                 filteredAds[i].AdId = filteredData[i].AdId;
@@ -72,6 +82,97 @@ namespace AdServiceTest.Controllers
 
             return data;
         }
+        private static int CompareAdsByCoverage(FlatAd x, FlatAd y)
+        {
+            return y.NumPages.CompareTo(x.NumPages);
+        }
+        public string GetTop5AdData()
+        {
+            WCFAdDataService.AdDataServiceClient adsc = new WCFAdDataService.AdDataServiceClient();
+            WCFAdDataService.Ad[] adData = adsc.GetAdDataByDateRange(startDate, endDate);
+
+            //Convert to datatable: All ads
+            List<FlatAd> allAds = new List<FlatAd>();
+            for (int i = 0; i < adData.Length; i++)
+            {
+                FlatAd newAd = new FlatAd();
+                newAd.AdId = adData[i].AdId;
+                newAd.BrandId = adData[i].Brand.BrandId;
+                newAd.BrandName = adData[i].Brand.BrandName;
+                newAd.NumPages = (float)adData[i].NumPages;
+                newAd.Position = adData[i].Position;
+                allAds.Add(newAd);
+            }
+
+            //Sort by ad coverage
+            allAds.Sort(CompareAdsByCoverage);
+            List<FlatAd> top5Ads = new List<FlatAd>();
+            List<int> usedBrands = new List<int>();
+            //Go through each all ad after it is sorted.  Add to this list until 5 ads
+            //with distinct brand IDs fill the list
+            foreach (FlatAd ad in allAds)
+            {
+                if (!usedBrands.Contains(ad.BrandId))
+                {
+                    top5Ads.Add(ad);
+                    usedBrands.Add(ad.BrandId);
+                }
+                if (top5Ads.Count >= 5)
+                {
+                    break;
+                }
+            }
+
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string data = jss.Serialize(top5Ads.ToArray());
+
+            return data;
+        }
+        public string GetTop5BrandData()
+        {
+            WCFAdDataService.AdDataServiceClient adsc = new WCFAdDataService.AdDataServiceClient();
+            WCFAdDataService.Ad[] adData = adsc.GetAdDataByDateRange(startDate, endDate);
+
+            //Convert to array: All ads
+            FlatAd[] allAds = new FlatAd[adData.Length];
+            for (int i = 0; i < adData.Length; i++)
+            {
+                allAds[i].AdId = adData[i].AdId;
+                allAds[i].BrandId = adData[i].Brand.BrandId;
+                allAds[i].BrandName = adData[i].Brand.BrandName;
+                allAds[i].NumPages = (float)adData[i].NumPages;
+                allAds[i].Position = adData[i].Position;
+            }
+
+            //Create list of brands
+            Dictionary<string, float> brandList = new Dictionary<string, float>();
+            for (int i = 0; i < allAds.Length; i++)
+            {
+                if (!brandList.Keys.Contains<string>(allAds[i].BrandName))
+                {
+                    brandList.Add(allAds[i].BrandName, 0f);
+                }
+
+                //Sum numpages value
+                brandList[allAds[i].BrandName] += allAds[i].NumPages;
+            }
+            
+            //Create new list of FlatAds 
+            FlatAd[] filteredAds = new FlatAd[brandList.Count];
+            int row = 0;
+            foreach (KeyValuePair<string, float> kvp in brandList)
+            {
+                filteredAds[row].BrandName = kvp.Key;
+                filteredAds[row].NumPages = kvp.Value;
+                row++;
+            }
+            
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string data = jss.Serialize(filteredAds);
+
+            return data;
+        }
+        
         public string[,,] GetData()
         {
             DateTime startDate = new DateTime(2011, 1, 1);

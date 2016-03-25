@@ -1,8 +1,102 @@
-﻿body {
+﻿#content {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    
+    bottom: 0px;
+    top: 0px;
+    background-color: white;
+    padding: 20px;
+}
+
+#header {
+    font-size: 3em;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+#nav {
+    margin-bottom: 20px;
+    border-top: 1px solid #666;
+    padding-top: 1px;
+}
+#nav button {
+    padding: 0px;
+    font-size: 1.5em;
+    background-color: white;
+    border: none;
+    margin-right: 20px;
+    color: #888;
+}
+
+#nav button:hover {
+    color: rgb(40, 100, 200);
+    cursor: pointer;
+}
+
+#sections>div {
+    width: 100%;
+    position: absolute;
+}
+.sectionHeader {
+    font-size: 1.3em;
+    border-bottom: 1px solid #888;
+    margin-bottom: 5px;
+    color: #666;
+}
+#sections>div>table {
+
+}
+
+.dataTables_length {
+    width: 50%;
+    display:inline-block;
+    margin-bottom: 10px;
+}
+.dataTables_filter {
+    width: 50%;
+    text-align: right;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+.dataTables_filter input {
+    margin-left: 10px;
+}
+
+.dataTables_info {
+    margin-top: 10px;
+    width: 50%;
+    display:inline-block;
+}
+.dataTables_paginate {
+    margin-top: 10px;
+    width: 50%;
+    text-align: right;
+    display: inline-block;
+}
+.paginate_button.current {
+    font-weight: bold;
+    text-decoration: none;
+}
+.paginate_button {
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+sorting_asc::after{
+    content:"asc";
+}
+sorting_desc::after{
+    content:"desc";
+}
+
+body {
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-    color: #232323;
-    background-color: #fff;
+    color: #555;
+    background-color: white;
+    margin: 0px;
 }
 
 header, footer, nav, section {
