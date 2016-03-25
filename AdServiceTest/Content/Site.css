@@ -1,4 +1,34 @@
-﻿#content {
+﻿#sidetag{
+    position: absolute;
+    right: 90%;
+    top: 10%;
+    padding: 15px;
+    background-color: #f4ec47;
+    color: #677;
+    box-shadow: -1px 1px 10px #bbb;
+    white-space: nowrap;
+    -webkit-transform: rotate(-90deg);
+    -webkit-transform-origin: 100% 100%;
+
+    /* Firefox */
+    -moz-transform: rotate(-90deg); 
+    -moz-transform-origin: 100% 100%;
+
+    /* IE9 */
+    -ms-transform: rotate(-90deg);
+    -ms-transform-origin: 100% 100%;
+
+    /* IE10 and other modern browsers that do not need vendor prefixes */
+    transform: rotate(-90deg);
+    transform-origin: 100% 100%;
+
+    text-align: center;
+}
+#sidetag>div{
+
+}
+
+#content {
     position: absolute;
     left: 10%;
     right: 10%;
@@ -6,13 +36,14 @@
     bottom: 0px;
     top: 0px;
     background-color: #eee;
-    box-shadow: 1px 1px 10px #ddd;
+    box-shadow: 0px 1px 15px #bbb;
 }
 
 #header {
-    font-size: 3em;
+    font-size: 2em;
     color: white;
     padding: 15px;
+    padding-top: 25px;
     background-color: #333;
 }
 
@@ -23,8 +54,8 @@
     background-color: #ccc;
 }
 #nav button {
-    padding: 10px;
-    font-size: 1.5em;
+    padding: 10px 20px 10px 20px;
+    font-size: 1.2em;
     background-color: #666;
     border: none;
     border-right: 1px solid #888;
@@ -35,7 +66,9 @@
     background-color: #555;
     color: white;
 }
-
+#nav button.active:hover {
+    color: white;
+}
 #nav button:hover {
     color: #aaa;
     cursor: pointer;
@@ -47,31 +80,31 @@
     padding: 15px;
 }
 .sectionHeader {
-    font-size: 2em;
+    font-size: 1.5em;
     border-bottom: 1px solid #888;
     margin-bottom: 25px;
     color: #666;
 }
 #sections table {
     width: 100% !important;
-    font-size: 1.3em;
+    font-size: 1em;
 }
 th {
     border-bottom: 1px solid #aaa;
 }
 .dataTables_length {
-    width: 50%;
-    display:inline-block;
+    display:none;
     margin-bottom: 10px;
 }
 .dataTables_filter {
-    width: 50%;
+    width: 100%;
     text-align: right;
     display: inline-block;
     margin-bottom: 10px;
 }
 .dataTables_filter input {
     margin-left: 10px;
+    width: 25%;
 }
 tr.odd {
     background-color: #fafafa;
@@ -108,10 +141,9 @@ sorting_desc::after{
 }
 
 body {
-    font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
     color: #555;
-    background-color: #fafafa;
+    background-color: #ddd;
     margin: 0px;
 }
 

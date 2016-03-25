@@ -18,8 +18,13 @@ Objectives:
     <script type="text/javascript" charset="utf8" src="../../Scripts/DataTables-1.10.11/media/js/jquery.dataTables.js"></script>
 </head>
 <body>
+    <div id="sidetag">
+        <div>
+            Written by Adrian Micayabas
+        </div>
+    </div>
     <div id="content">
-        <div id="header">WCF Ad Data Service</div>
+        <div id="header">   WCF Ad Data Service</div>
         <div id="nav">
             <button id="btnAllAds">All Ads</button><button id="btnHighCoverAds">High Coverage Ads</button><button id="btnTop5Ads">Top 5 Ads</button><button id="btnTop5Brands">Top 5 Brands</button>
         </div>
@@ -88,6 +93,7 @@ Objectives:
                     destroy: true,
                     pageLength: 25,
                     data: adData,
+                    scrollY: "500px",
                     columns: [
                     { data: "AdId", width: "10%" },
                     { data: "BrandId", width: "20%" },
@@ -108,6 +114,7 @@ Objectives:
                     destroy: true,
                     pageLength: 25,
                     data: adData,
+                    scrollY: "500px",
                     columns: [
                     { data: "AdId", width: "10%" },
                     { data: "BrandId", width: "20%" },
